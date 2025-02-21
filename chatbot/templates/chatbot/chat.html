@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Chatbot</title>
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("message").value;
+            const response = await fetch("{% url 'chat' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: `message=${message}`
+            });
+            const data = await response.json();
+            document.getElementById("response").innerText = data.response;
+        }
+    </script>
+</head>
+<body>
+    <h1>HR Chatbot</h1>
+    <input type="text" id="message" placeholder="Ask a question...">
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+</body>
+</html>
